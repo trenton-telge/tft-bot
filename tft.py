@@ -16,6 +16,7 @@ auto.FAILSAFE = False
 global gamecount
 gamecount = 0
 
+
 # Start utility methods
 def onscreen(path, precision=0.8):
     return search(path, precision)[0] != -1
@@ -50,6 +51,8 @@ def click_to(path, delay=.1):
     if onscreen(path):
         auto.moveTo(search(path))
         click_left(delay)
+
+
 # End utility methods
 
 
@@ -88,12 +91,12 @@ def buy(iterations):
         click_to("./captures/chemtech.png")
         click_to("./captures/scrap.png")
 
-    
+
 def checks():  # checks to see if game was interrupted
     if onscreen("./captures/play again.png"):
         won_match()
-    if onscreen("./captures/dead.PNG"):  # check for loss
-        click_to("./captures/dead.PNG")
+    if onscreen("./captures/dead.png"):  # check for loss
+        click_to("./captures/dead.png")
         won_match()
     if onscreen("./captures/reconnect.png"):
         print("reconnecting!")
@@ -105,7 +108,7 @@ def main():
     while not onscreen("./captures/2-4.png"):
         buy(5)
         time.sleep(1)
-        checks() 
+        checks()
     while onscreen("./captures/2-4.png"):
         auto.moveTo(928, 396)
         click_right()
@@ -114,17 +117,19 @@ def main():
     time.sleep(5)
 
     if onscreen("./captures/2-5.png"):
-        while not onscreen("./captures/3-1.png"):  # change this if you want to surrender at a different stage, also the image recognition struggles with 5 being it sees it as 3 so i had to do 6 as that's seen as a 5
+        while not onscreen(
+                "./captures/3-1.png"):  # change this if you want to surrender at a different stage, also the image recognition struggles with 5 being it sees it as 3 so i had to do 6 as that's seen as a 5
             buy(5)
             click_to("./captures/reroll.png")
             time.sleep(1)
-            checks() 
+            checks()
         print("Surrendering now!")
         surrender()
 
 
 def end_match():
-    while not onscreen("./captures/find match ready.png"):  # added a main loop for the end match function to ensure you make it to the find match button.
+    while not onscreen(
+            "./captures/find match ready.png"):  # added a main loop for the end match function to ensure you make it to the find match button.
         while onscreen("./captures/missions ok.png"):
             click_to("./captures/missions ok.png")
             time.sleep(2)
@@ -133,20 +138,20 @@ def end_match():
             time.sleep(5)
         while onscreen("./captures/play again.png"):
             click_to("./captures/play again.png")
-            
-            
-def won_match(): 
+
+
+def won_match():
     global gamecount
     global endtimer
     endtimer = time.time()
     gamecount += 1
     sec = (endtimer - starttimer)
     hours = sec // 3600
-    sec = sec - hours*3600
+    sec = sec - hours * 3600
     mu = sec // 60
-    ss = sec - mu*60
+    ss = sec - mu * 60
     gamecount2 = str(gamecount)
-    #result_list = str(datetime.timedelta(seconds=sec)).split(".")
+    # result_list = str(datetime.timedelta(seconds=sec)).split(".")
     print("-------------------------------------")
     print("Game End")
     print("Play Time : ", int(float(hours)), "Hour", int(float(mu)), "Min", int(float(ss)), "Sec")
@@ -159,7 +164,7 @@ def won_match():
     time.sleep(5)
     queue()
 
-    
+
 def surrender():
     click_to("./captures/settings.png")
 
@@ -181,6 +186,8 @@ def surrender():
     time.sleep(5)
     print("Queuing up again!")
     queue()
+
+
 # End main process
 
 
@@ -197,7 +204,9 @@ printy(r"""
 [c>]                         |___/                @
 """)
 
-printy(f"Welcome! You're running Detergent's TFT bot.\nPlease feel free to ask questions or contribute at https://github.com/Detergent13/tft-bot", "nB")
+printy(
+    f"Welcome! You're running Detergent's TFT bot.\nPlease feel free to ask questions or contribute at https://github.com/Detergent13/tft-bot",
+    "nB")
 auto.alert("Press OK when you're in a TFT lobby!\n")
 print("Bot started, queuing up!")
 queue()
